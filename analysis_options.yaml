@@ -10,6 +10,13 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  errors:
+    todo: ignore
+    sdk_version_async_exported_from_core: ignore
+    missing_required_param: error
+    missing_return: error
+    invalid_annotation_target: ignore
+    prefer_const_constructors: true
   exclude:
     - "lib/generated_plugin_*.dart"
     - "bin/cache/**"
@@ -46,5 +53,6 @@ linter:
     cancel_subscriptions: true
     sort_pub_dependencies: true
     use_build_context_synchronously: false,
+    flutter_style_todos: true
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

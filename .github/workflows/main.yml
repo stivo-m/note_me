@@ -89,7 +89,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Android APK
-          path: build/app/outputs/flutter-apk/app-staging-release
+          path: build/app/outputs/flutter-apk/app-staging-release.apk
 
       - name: Deploy
         uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
@@ -97,5 +97,5 @@ jobs:
           appId: ${{secrets.FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_TOKEN}}
           groups: dev-testers
-          file: build/app/outputs/flutter-apk/app-staging-release
+          file: build/app/outputs/flutter-apk/app-staging-release.apk
           releaseNotes: ${{ github.event.workflow_run.head_commit.message }}
