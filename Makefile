@@ -7,3 +7,7 @@ test:
     lcov --remove coverage/lcov.info 'lib/**/*.freezed.dart' -o coverage/lcov.info && \
     genhtml -q -o coverage coverage/lcov.info && \
 	google-chrome coverage/index.html
+
+.PHONY: fvm_generate
+fvm_generate:
+	fvm flutter pub run build_runner build --delete-conflicting-outputs
