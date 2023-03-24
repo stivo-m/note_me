@@ -31,9 +31,9 @@ jobs:
         run: |
           flutter analyze
           sudo apt-get -qq update
-          sudo apt-get install -qqy lcov python3-pip 
+          sudo apt-get install -qqy lcov python3-pip
           pip3 install -Uqqq lxml && pip3 install -Uqqq beautifulsoup4
-          flutter test --coverage test/ 
+          flutter test --coverage test/
           lcov --remove coverage/lcov.info 'lib/**/*.g.dart' -o coverage/lcov.info
           lcov --remove coverage/lcov.info 'lib/**/*.freezed.dart' -o coverage/lcov.info
           genhtml -q -o coverage coverage/lcov.info
@@ -60,19 +60,36 @@ jobs:
       - name: Setup flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.3.4"
+          flutter-version: "3.7.5"
+      - name: Setup Android Keys
+        run: |
+          set -e
+          echo "${{secrets.KEYSTORE_FILE}}" | base64 --decode > android/android_store_file.jks
+          if [ -f android/android_store_file.jks ]
+          then
+            touch android/key.properties
+            echo "=== GENERATING KEY PROPERTIES FILE ==="
+            echo "storePassword=${{secrets.STG_STORE_PASSWORD}}" | tee -a android/key.properties
+            echo "keyPassword=${{secrets.STG_KEY_PASSWORD}}" | tee -a android/key.properties
+            echo "keyAlias=${{secrets.STG_KEY_ALIAS}}" | tee -a android/key.properties
+            echo "storeFile=../../android/android_store_file.jks" | tee -a android/key.properties
+            echo "=== KEY PROPERTIES FILE GENERATED ==="
+          else
+            echo "Store file not generated"
+            exit -1
+          fi
 
       - name: Build apk
         run: |
           flutter pub get 
-          flutter build apk --release --build-number=${{ github.run_number }} --flavor development --build-name=1.0.${{ github.run_number }}-dev
+          flutter build apk --release --flavor staging --build-number=${{ github.run_number }} --build-name=1.0.${{ github.run_number }}-stg
 
       # Upload generated apk to the artifacts.
       - name: "Upload artifacts"
         uses: actions/upload-artifact@v1
         with:
           name: Android APK
-          path: build/app/outputs/flutter-apk/app.apk
+          path: build/app/outputs/flutter-apk/app-staging-release
 
       - name: Deploy
         uses: wzieba/Firebase-Distribution-Github-Action@v1.3.4
@@ -80,5 +97,5 @@ jobs:
           appId: ${{secrets.FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_TOKEN}}
           groups: dev-testers
-          file: build/app/outputs/flutter-apk/app.apk
+          file: build/app/outputs/flutter-apk/app-staging-release
           releaseNotes: ${{ github.event.workflow_run.head_commit.message }}
