@@ -11,3 +11,9 @@ test:
 .PHONY: fvm_generate
 fvm_generate:
 	fvm flutter pub run build_runner build --delete-conflicting-outputs
+
+
+# Generate app icons for each platform
+.PHONY: generate-icons
+generate-icons:
+	fvm flutter pub run flutter_launcher_icons:main -f lib/bin/configs/icons/flutter_launcher_icons*

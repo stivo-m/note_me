@@ -1,0 +1,6 @@
+flutter_icons:
+  image_path: "assets/icons/note.png"
+  android: true
+  ios: true
+  image_path_ios: "assets/icons/note.png"
+  remove_alpha_ios: true
