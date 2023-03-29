@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_it/app/presentation/pages/dashboard/dashboard_page.dart';
+import 'package:note_it/app/presentation/pages/dashboard/note_editor/note_editor_page.dart';
 import 'package:note_it/app/presentation/pages/settings/settings_page.dart';
 import 'package:note_it/bin/bootstrap/router/routes.dart';
 
@@ -15,6 +16,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case AppRoutes.settingsRoute:
       return MaterialPageRoute<SettingsPage>(
         builder: (_) => const SettingsPage(),
+      );
+    case AppRoutes.noteEditorRoute:
+      return MaterialPageRoute<NoteEditorPage>(
+        builder: (_) => const NoteEditorPage(),
       );
     default:
       return MaterialPageRoute<DashboardPage>(

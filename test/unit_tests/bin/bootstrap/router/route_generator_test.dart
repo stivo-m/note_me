@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:note_it/app/presentation/pages/dashboard/dashboard_page.dart';
+import 'package:note_it/app/presentation/pages/dashboard/note_editor/note_editor_page.dart';
 import 'package:note_it/app/presentation/pages/settings/settings_page.dart';
 import 'package:note_it/bin/bootstrap/router/route_generator.dart';
 import 'package:note_it/bin/bootstrap/router/routes.dart';
@@ -46,6 +47,18 @@ void main() {
 
         expect(route, isA<MaterialPageRoute<SettingsPage>>());
         expect(route.builder(context), isA<SettingsPage>());
+      });
+
+      test('returns note editor page', () {
+        const RouteSettings settings = RouteSettings(
+          name: AppRoutes.noteEditorRoute,
+        );
+
+        final MaterialPageRoute<NoteEditorPage> route =
+            routeGenerator(settings) as MaterialPageRoute<NoteEditorPage>;
+
+        expect(route, isA<MaterialPageRoute<NoteEditorPage>>());
+        expect(route.builder(context), isA<NoteEditorPage>());
       });
     },
   );

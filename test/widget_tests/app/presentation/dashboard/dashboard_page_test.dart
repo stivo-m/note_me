@@ -4,8 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:note_it/app/application/states/states/app_state.dart';
 import 'package:note_it/app/application/states/states/note_state/note_state.dart';
 import 'package:note_it/app/domain/constants/keys.dart';
-import 'package:note_it/app/domain/constants/strings.dart';
 import 'package:note_it/app/presentation/pages/dashboard/dashboard_page.dart';
+import 'package:note_it/app/presentation/pages/dashboard/note_editor/note_editor_page.dart';
 import 'package:note_it/app/presentation/pages/settings/settings_page.dart';
 import 'package:note_it/app/presentation/widgets/custom_app_bar.dart';
 import 'package:note_it/app/presentation/widgets/empty_state.dart';
@@ -95,10 +95,9 @@ void main() {
           expect(floatingBtn, findsOneWidget);
 
           await tester.tap(floatingBtn);
-          await tester.pump();
+          await tester.pumpAndSettle();
 
-          expect(find.byType(SnackBar), findsOneWidget);
-          expect(find.text(AppStrings.featureComingSoonText), findsOneWidget);
+          expect(find.byType(NoteEditorPage), findsOneWidget);
         },
       );
     },

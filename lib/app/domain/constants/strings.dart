@@ -20,4 +20,8 @@ class AppStrings {
   static const String searchHintText = 'Search anything here...';
   static const String noItemsToDisplay = 'There are no items to display here';
   static const String featureComingSoonText = 'Feature coming soon...';
+  static const String createNoteText = 'Create a note...';
+  static const String startTypingText = 'Start typing here...';
+  static const String defaultTitle = 'My Note Title';
+  static const String saveText = 'Save';
 }

@@ -11,6 +11,13 @@ class NotePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return ListTile(
+      title: Text(noteEntity.title ?? ''),
+      subtitle: Text(
+        noteEntity.body ?? '',
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
   }
 }
