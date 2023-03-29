@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:note_it/bin/bootstrap/themes/colors.dart';
 
 class AppTheme {
@@ -18,6 +19,15 @@ class AppTheme {
         onBackground: AppColors.darkGrayColor,
         surface: AppColors.primaryLightColor,
         onSurface: AppColors.darkGrayColor,
+      ),
+      appBarTheme: AppBarTheme(
+        color: AppColors.primaryLightColor,
+        toolbarHeight: kToolbarHeight,
+        elevation: 2,
+        systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+          statusBarBrightness: Brightness.light,
+          statusBarColor: AppColors.primaryLightColor,
+        ),
       ),
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppColors.primaryLightColor,
@@ -85,6 +95,14 @@ class AppTheme {
         onBackground: AppColors.lightGrayColor,
         surface: AppColors.primaryDarkColor,
         onSurface: AppColors.lightGrayColor,
+      ),
+      appBarTheme: AppBarTheme(
+        color: AppColors.primaryDarkColor,
+        toolbarHeight: kToolbarHeight,
+        elevation: 2,
+        systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
+          statusBarBrightness: Brightness.dark,
+        ),
       ),
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppColors.primaryLightColor,
