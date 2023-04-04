@@ -10,7 +10,7 @@ _$_AppState _$$_AppStateFromJson(Map<String, dynamic> json) => _$_AppState(
       noteState: json['noteState'] == null
           ? null
           : NoteState.fromJson(json['noteState'] as Map<String, dynamic>),
-      themeMode: $enumDecodeNullable(_$ThemeModeEnumMap, json['themeMode']),
+      themeMode: fromJson(json['themeMode']),
     );
 
 Map<String, dynamic> _$$_AppStateToJson(_$_AppState instance) =>

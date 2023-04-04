@@ -21,6 +21,7 @@ AppState _$AppStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$AppState {
   NoteState? get noteState => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: fromJson)
   ThemeMode? get themeMode => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -34,7 +35,9 @@ abstract class $AppStateCopyWith<$Res> {
   factory $AppStateCopyWith(AppState value, $Res Function(AppState) then) =
       _$AppStateCopyWithImpl<$Res, AppState>;
   @useResult
-  $Res call({NoteState? noteState, ThemeMode? themeMode});
+  $Res call(
+      {NoteState? noteState,
+      @JsonKey(fromJson: fromJson) ThemeMode? themeMode});
 
   $NoteStateCopyWith<$Res>? get noteState;
 }
@@ -87,7 +90,9 @@ abstract class _$$_AppStateCopyWith<$Res> implements $AppStateCopyWith<$Res> {
       __$$_AppStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({NoteState? noteState, ThemeMode? themeMode});
+  $Res call(
+      {NoteState? noteState,
+      @JsonKey(fromJson: fromJson) ThemeMode? themeMode});
 
   @override
   $NoteStateCopyWith<$Res>? get noteState;
@@ -122,8 +127,8 @@ class __$$_AppStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AppState implements _AppState {
-  _$_AppState({this.noteState, this.themeMode});
+class _$_AppState with DiagnosticableTreeMixin implements _AppState {
+  _$_AppState({this.noteState, @JsonKey(fromJson: fromJson) this.themeMode});
 
   factory _$_AppState.fromJson(Map<String, dynamic> json) =>
       _$$_AppStateFromJson(json);
@@ -131,11 +136,21 @@ class _$_AppState implements _AppState {
   @override
   final NoteState? noteState;
   @override
+  @JsonKey(fromJson: fromJson)
   final ThemeMode? themeMode;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AppState(noteState: $noteState, themeMode: $themeMode)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'AppState'))
+      ..add(DiagnosticsProperty('noteState', noteState))
+      ..add(DiagnosticsProperty('themeMode', themeMode));
   }
 
   @override
@@ -168,14 +183,16 @@ class _$_AppState implements _AppState {
 }
 
 abstract class _AppState implements AppState {
-  factory _AppState({final NoteState? noteState, final ThemeMode? themeMode}) =
-      _$_AppState;
+  factory _AppState(
+      {final NoteState? noteState,
+      @JsonKey(fromJson: fromJson) final ThemeMode? themeMode}) = _$_AppState;
 
   factory _AppState.fromJson(Map<String, dynamic> json) = _$_AppState.fromJson;
 
   @override
   NoteState? get noteState;
   @override
+  @JsonKey(fromJson: fromJson)
   ThemeMode? get themeMode;
   @override
   @JsonKey(ignore: true)

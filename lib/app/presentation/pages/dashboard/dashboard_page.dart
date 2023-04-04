@@ -17,50 +17,48 @@ class DashboardPage extends StatelessWidget {
     return StoreConnector<AppState, NotesViewModel>(
       converter: (Store<AppState> store) => NotesViewModel.fromStore(store),
       builder: (BuildContext context, NotesViewModel vm) {
-        return SafeArea(
-          child: Scaffold(
-            body: CustomScrollView(
-              slivers: <Widget>[
-                const CustomAppBar(),
-                SliverVisibility(
-                  visible: vm.allNotes.isEmpty,
-                  sliver: const SliverFillRemaining(
-                    child: Center(
-                      child: AppEmptyState(),
+        return Scaffold(
+          body: CustomScrollView(
+            slivers: <Widget>[
+              const CustomAppBar(),
+              SliverVisibility(
+                visible: vm.allNotes.isEmpty,
+                sliver: const SliverFillRemaining(
+                  child: Center(
+                    child: AppEmptyState(),
+                  ),
+                ),
+              ),
+              SliverVisibility(
+                visible: vm.allNotes.isNotEmpty,
+                sliver: SliverToBoxAdapter(
+                  child: Column(
+                    children: List<Widget>.generate(
+                      vm.allNotes.length,
+                      (int index) {
+                        final NoteEntity noteEntity = vm.allNotes[index];
+                        return NotePreview(noteEntity: noteEntity);
+                      },
                     ),
                   ),
                 ),
-                SliverVisibility(
-                  visible: vm.allNotes.isNotEmpty,
-                  sliver: SliverToBoxAdapter(
-                    child: Column(
-                      children: List<Widget>.generate(
-                        vm.allNotes.length,
-                        (int index) {
-                          final NoteEntity noteEntity = vm.allNotes[index];
-                          return NotePreview(noteEntity: noteEntity);
-                        },
-                      ),
-                    ),
-                  ),
-                )
-              ],
+              )
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: AppColors.superLightGreenColor,
+            child: const Icon(
+              Icons.add,
+              color: AppColors.darkGrayColor,
+              size: 32,
             ),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: AppColors.superLightGreenColor,
-              child: const Icon(
-                Icons.add,
-                color: AppColors.darkGrayColor,
-                size: 32,
-              ),
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(AppStrings.featureComingSoonText),
-                  ),
-                );
-              },
-            ),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(AppStrings.featureComingSoonText),
+                ),
+              );
+            },
           ),
         );
       },

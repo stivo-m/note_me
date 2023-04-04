@@ -1,6 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:note_it/app/domain/constants/enums.dart';
 
 class AppStrings {
+  static String getDatabaseName(AppContext appContext) {
+    final String suffix = describeEnum(appContext);
+    return 'com.note_me.app.store-02.${suffix}-${AppStrings.appVersion}.db';
+  }
+
   static const String appTitle = 'Note IT';
   static const String appVersion =
       String.fromEnvironment('APP_VERSION', defaultValue: '1.0.0-dev');

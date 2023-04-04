@@ -28,7 +28,22 @@ void main() {
       'should convert from json',
       () {
         final Map<String, dynamic> stateMap = jsonDecode(
-          jsonEncode(AppState.initial()),
+          jsonEncode(AppState.initial().toMap()),
+        );
+        expect(stateMap, isA<Map<String, dynamic>>());
+        expect(stateMap.containsKey('noteState'), true);
+
+        final AppState appState = AppState.fromJson(stateMap);
+        expect(appState, isA<AppState>());
+        expect(appState.noteState, NoteState.initial());
+      },
+    );
+
+    test(
+      'should toMap',
+      () {
+        final Map<String, dynamic> stateMap = jsonDecode(
+          jsonEncode(AppState.initial().toMap()),
         );
         expect(stateMap, isA<Map<String, dynamic>>());
         expect(stateMap.containsKey('noteState'), true);
