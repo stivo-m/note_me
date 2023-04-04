@@ -2,11 +2,11 @@ import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:note_it/app/application/states/states/app_state.dart';
 import 'package:note_it/app/application/states/view_models/notes_view_mode.dart';
-import 'package:note_it/app/domain/constants/strings.dart';
 import 'package:note_it/app/domain/core/entities/note/note_entity.dart';
 import 'package:note_it/app/presentation/widgets/custom_app_bar.dart';
 import 'package:note_it/app/presentation/widgets/empty_state.dart';
 import 'package:note_it/app/presentation/widgets/note_preview.dart';
+import 'package:note_it/bin/bootstrap/router/routes.dart';
 import 'package:note_it/bin/bootstrap/themes/colors.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -53,11 +53,7 @@ class DashboardPage extends StatelessWidget {
               size: 32,
             ),
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(AppStrings.featureComingSoonText),
-                ),
-              );
+              Navigator.of(context).pushNamed(AppRoutes.noteEditorRoute);
             },
           ),
         );
