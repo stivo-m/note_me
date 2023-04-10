@@ -2,10 +2,9 @@ import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
 import 'package:note_it/app/application/states/states/app_state.dart';
 import 'package:note_it/app/application/states/view_models/notes_view_mode.dart';
-import 'package:note_it/app/domain/core/entities/note/note_entity.dart';
+import 'package:note_it/app/presentation/pages/dashboard/note_editor/widgets/notes_grid.dart';
 import 'package:note_it/app/presentation/widgets/custom_app_bar.dart';
 import 'package:note_it/app/presentation/widgets/empty_state.dart';
-import 'package:note_it/app/presentation/widgets/note_preview.dart';
 import 'package:note_it/bin/bootstrap/router/routes.dart';
 import 'package:note_it/bin/bootstrap/themes/colors.dart';
 
@@ -32,15 +31,7 @@ class DashboardPage extends StatelessWidget {
               SliverVisibility(
                 visible: vm.allNotes.isNotEmpty,
                 sliver: SliverToBoxAdapter(
-                  child: Column(
-                    children: List<Widget>.generate(
-                      vm.allNotes.length,
-                      (int index) {
-                        final NoteEntity noteEntity = vm.allNotes[index];
-                        return NotePreview(noteEntity: noteEntity);
-                      },
-                    ),
-                  ),
+                  child: NotesGrid(allNotes: vm.allNotes),
                 ),
               )
             ],

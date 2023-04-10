@@ -9,9 +9,9 @@ class MockBuildContext extends Mock implements BuildContext {}
 List<NoteEntity> mockNotes = <NoteEntity>[
   NoteEntity(
     id: '1',
-    title: 'Sample first note',
+    title: r'''[{"insert":"Johanesbourg & its beauty!\n"}]''',
     body:
-        'This is an example note. By default, it will have html tags and should be shown as markdown',
+        r'''[{"insert":"There are a few things I noticed from Johanesbourg in South Africa:\n\nThere are alot of people"},{"insert":"\n","attributes":{"list":"ordered"}},{"insert":"There are alot of things to see"},{"insert":"\n","attributes":{"list":"ordered"}},{"insert":"You can never understand the quality of products sold in this region"},{"insert":"\n","attributes":{"list":"ordered"}},{"insert":"\n"},{"insert":"How I got here..","attributes":{"bold":true}},{"insert":"\nThis started a while ago. But since I was never born here, I decided to just be acquainted to the city through my normal monthly visits. \n\n"},{"insert":"Challenges","attributes":{"bold":true}},{"insert":"\nI have faced a number of challenges, including: \nLanguage barrier"},{"insert":"\n","attributes":{"list":"bullet"}},{"insert":"Cultural shock"},{"insert":"\n","attributes":{"list":"bullet"}},{"insert":"Perfection"},{"insert":"\n","attributes":{"list":"bullet"}},{"insert":"\n"}]''',
     createdAt: DateTime.now().toIso8601String(),
     updatedAt: DateTime.now().toIso8601String(),
   )

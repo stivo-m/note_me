@@ -2,7 +2,7 @@ import 'package:flutter/painting.dart';
 
 class AppColors {
   static const Color primaryDarkColor = Color(0xff0E0F28);
-  static const Color primaryLightColor = Color(0xffFFFFFF);
+  static const Color primaryLightColor = Color(0xFFEEEEEE);
   static const Color lightGrayColor = Color(0xffBDC0C3);
   static const Color darkGrayColor = Color(0xff393939);
   static const Color primaryGreenColor = Color(0xFF03AF00);

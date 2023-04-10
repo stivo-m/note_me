@@ -57,6 +57,33 @@ void main() {
       );
 
       testWidgets(
+        'should open note editor when a note is tapped',
+        (WidgetTester tester) async {
+          final StoreTester<AppState> storeTester = StoreTester<AppState>(
+            initialState: AppState.initial().copyWith(
+              noteState: NoteState.initial().copyWith(allNotes: mockNotes),
+            ),
+          );
+          await buildTestWidget(
+            store: storeTester.store,
+            tester: tester,
+            child: const DashboardPage(),
+          );
+
+          await tester.pumpAndSettle();
+
+          expect(find.byType(CustomAppBar), findsOneWidget);
+          expect(find.byType(AppEmptyState), findsNothing);
+          expect(find.byType(NotePreview), findsNWidgets(mockNotes.length));
+
+          await tester.tap(find.byType(NotePreview).first);
+          await tester.pumpAndSettle();
+
+          expect(find.byType(NoteEditorPage), findsOneWidget);
+        },
+      );
+
+      testWidgets(
         'should navigate to settings page',
         (WidgetTester tester) async {
           await buildTestWidget(

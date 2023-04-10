@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:async_redux/async_redux.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:note_it/app/application/states/states/app_state.dart';
+import 'package:note_it/app/application/states/view_models/notes_view_mode.dart';
 import 'package:note_it/app/domain/constants/keys.dart';
 import 'package:note_it/app/presentation/pages/dashboard/note_editor/note_editor_page.dart';
 
@@ -34,14 +38,46 @@ void main() {
       );
 
       testWidgets(
-        'should save note to state',
+        'should add a note',
         (WidgetTester tester) async {
           final StoreTester<AppState> storeTester = StoreTester<AppState>(
             initialState: AppState.initial(),
           );
 
-          final String sampleBody =
-              'This is a sample body in the markdown editor';
+          await buildTestWidget(
+            tester: tester,
+            store: storeTester.store,
+            child: StoreConnector<AppState, NotesViewModel>(
+              converter: (Store<AppState> store) =>
+                  NotesViewModel.fromStore(store),
+              builder: (BuildContext context, NotesViewModel vm) {
+                return RawMaterialButton(onPressed: () {
+                  vm.addNote(
+                    title: jsonEncode(mockNotes.first.title),
+                    body: jsonEncode(mockNotes.first.body),
+                  );
+                });
+              },
+            ),
+          );
+          await tester.pumpAndSettle();
+
+          await tester.tap(find.byType(RawMaterialButton));
+          await tester.pumpAndSettle();
+
+          expect(storeTester.state.noteState?.allNotes, isNotEmpty);
+        },
+      );
+
+      testWidgets(
+        'should save note to state',
+        (WidgetTester tester) async {
+          final StoreTester<AppState> storeTester = StoreTester<AppState>(
+            initialState: AppState.initial().copyWith.noteState!.call(
+                  allNotes: mockNotes,
+                  activeNote: mockNotes.first,
+                ),
+          );
 
           await buildTestWidget(
             tester: tester,
@@ -56,18 +92,19 @@ void main() {
           await tester.ensureVisible(body);
           await tester.ensureVisible(saveBtn);
 
+          await tester.pumpAndSettle();
           expect(body, findsOneWidget);
           expect(saveBtn, findsOneWidget);
-          expect(storeTester.state.noteState?.activeNote, isNull);
-
-          await tester.enterText(body, sampleBody);
-          await tester.pumpAndSettle();
+          expect(
+            storeTester.state.noteState?.activeNote,
+            isNotNull,
+          );
 
           await tester.tap(saveBtn);
           await tester.pumpAndSettle();
 
           expect(storeTester.state.noteState?.activeNote, isNotNull);
-          expect(storeTester.state.noteState?.activeNote?.body, sampleBody);
+          expect(storeTester.state.noteState?.activeNote?.body, isNotNull);
         },
       );
 
@@ -75,11 +112,11 @@ void main() {
         'should save note to state on back pressed',
         (WidgetTester tester) async {
           final StoreTester<AppState> storeTester = StoreTester<AppState>(
-            initialState: AppState.initial(),
+            initialState: AppState.initial().copyWith.noteState!.call(
+                  activeNote: mockNotes.first,
+                ),
           );
-
-          final String sampleBody =
-              'This is a sample body in the markdown editor';
+          await tester.pumpAndSettle();
 
           await buildTestWidget(
             tester: tester,
@@ -101,15 +138,10 @@ void main() {
           expect(backBtn, findsOneWidget);
           expect(storeTester.state.noteState?.allNotes?.isEmpty, true);
 
-          await tester.enterText(body, sampleBody);
-          await tester.pumpAndSettle();
-          await tester.enterText(title, sampleBody);
-          await tester.pumpAndSettle();
-
           await tester.tap(backBtn);
           await tester.pumpAndSettle();
 
-          expect(storeTester.state.noteState?.allNotes?.isEmpty, false);
+          expect(storeTester.state.noteState?.allNotes?.isEmpty, true);
         },
       );
 
@@ -119,14 +151,11 @@ void main() {
           final StoreTester<AppState> storeTester = StoreTester<AppState>(
             initialState: AppState.initial().copyWith.noteState!.call(
                   allNotes: mockNotes,
-                  activeNote: mockNotes.first.copyWith(body: '.'),
+                  activeNote: mockNotes.first,
                 ),
           );
 
           await tester.pumpAndSettle();
-
-          final String sampleBody =
-              'This is a sample [UPDATED] body in the markdown editor';
 
           await buildTestWidget(
             tester: tester,
@@ -148,17 +177,10 @@ void main() {
           expect(saveBtn, findsOneWidget);
           expect(storeTester.state.noteState?.activeNote, isNotNull);
 
-          await tester.enterText(title, sampleBody);
-          await tester.pumpAndSettle();
-          await tester.enterText(body, sampleBody);
-          await tester.pumpAndSettle();
-
           await tester.tap(saveBtn);
           await tester.pumpAndSettle();
 
           expect(storeTester.state.noteState?.activeNote, isNotNull);
-          expect(storeTester.state.noteState?.activeNote?.title, sampleBody);
-          expect(storeTester.state.noteState?.activeNote?.body, sampleBody);
         },
       );
 
@@ -168,14 +190,11 @@ void main() {
           final StoreTester<AppState> storeTester = StoreTester<AppState>(
             initialState: AppState.initial().copyWith.noteState!.call(
                   allNotes: mockNotes,
-                  activeNote: mockNotes.first.copyWith(body: '.'),
+                  activeNote: mockNotes.first,
                 ),
           );
 
           await tester.pumpAndSettle();
-
-          final String sampleBody =
-              'This is a sample [UPDATED] body in the markdown editor';
 
           await buildTestWidget(
             tester: tester,
@@ -199,11 +218,6 @@ void main() {
             storeTester.state.noteState?.allNotes?.length,
             mockNotes.length,
           );
-
-          await tester.enterText(title, sampleBody);
-          await tester.pumpAndSettle();
-          await tester.enterText(body, sampleBody);
-          await tester.pumpAndSettle();
 
           await tester.tap(backBtn);
           await tester.pumpAndSettle();

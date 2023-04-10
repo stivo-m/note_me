@@ -25,8 +25,9 @@ class AppTheme {
         toolbarHeight: kToolbarHeight,
         elevation: 2,
         systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
-          statusBarBrightness: Brightness.light,
+          statusBarBrightness: Brightness.dark,
           statusBarColor: AppColors.primaryLightColor,
+          statusBarIconBrightness: Brightness.dark,
         ),
       ),
       progressIndicatorTheme: const ProgressIndicatorThemeData(
@@ -100,8 +101,10 @@ class AppTheme {
         color: AppColors.primaryDarkColor,
         toolbarHeight: kToolbarHeight,
         elevation: 2,
-        systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
-          statusBarBrightness: Brightness.dark,
+        systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+          statusBarBrightness: Brightness.light,
+          statusBarColor: AppColors.primaryDarkColor,
+          statusBarIconBrightness: Brightness.light,
         ),
       ),
       progressIndicatorTheme: const ProgressIndicatorThemeData(
