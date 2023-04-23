@@ -12,7 +12,7 @@ void main() {
           final String suffix = describeEnum(appContext);
           final String version = AppStrings.appVersion;
           final String result =
-              'com.note_me.app.store-02.${suffix}-${version}.db';
+              'com.note_me.app.store-04.${suffix}-${version}.db';
 
           expect(AppStrings.getDatabaseName(appContext), result);
         },

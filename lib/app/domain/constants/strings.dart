@@ -5,7 +5,7 @@ import 'package:note_it/app/domain/constants/enums.dart';
 class AppStrings {
   static String getDatabaseName(AppContext appContext) {
     final String suffix = describeEnum(appContext);
-    return 'com.note_me.app.store-02.${suffix}-${AppStrings.appVersion}.db';
+    return 'com.note_me.app.store-04.${suffix}-${AppStrings.appVersion}.db';
   }
 
   static const String appTitle = 'Note IT';
@@ -23,5 +23,7 @@ class AppStrings {
   static const String createNoteText = 'Create a note...';
   static const String startTypingText = 'Start typing here...';
   static const String defaultTitle = 'My Note Title';
+  static const String defaultBodyHintText =
+      'You can enter all your notes here...';
   static const String saveText = 'Save';
 }
