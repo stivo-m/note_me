@@ -32,3 +32,8 @@ fvm_generate:
 .PHONY: generate-icons
 generate-icons:
 	fvm flutter pub run flutter_launcher_icons:main -f lib/bin/configs/icons/flutter_launcher_icons*
+
+
+.PHONY: generate-app-bundle
+generate-app-bundle:
+	flutter build appbundle --flavor production --release -t lib/bin/environments/main_production.dart --build-number 1 --dart-define=APP_VERSION=1.0.0 --obfuscate --split-debug-info='(pwd)/dump' --build-name='1.0.0'
