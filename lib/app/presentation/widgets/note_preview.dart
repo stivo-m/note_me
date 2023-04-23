@@ -64,7 +64,9 @@ class _NotePreviewState extends State<NotePreview> {
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Theme.of(context).scaffoldBackgroundColor),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.1),
+          ),
           boxShadow: <BoxShadow>[
             BoxShadow(
               color: AppColors.primaryGreenColor.withOpacity(0.05),

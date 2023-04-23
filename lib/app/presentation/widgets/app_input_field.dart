@@ -9,6 +9,7 @@ class AppInputField extends StatelessWidget {
     this.onChanged,
     this.keyboardType,
     this.validator,
+    this.enabled = true,
     super.key,
   });
 
@@ -18,6 +19,7 @@ class AppInputField extends StatelessWidget {
   final Function(String?)? onChanged;
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class AppInputField extends StatelessWidget {
         ],
         const SizedBox(height: SpaceUtils.small),
         TextFormField(
+          enabled: enabled,
           keyboardType: keyboardType,
           textCapitalization: TextCapitalization.sentences,
           controller: controller,

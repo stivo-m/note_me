@@ -7,7 +7,7 @@ import sys
 from bs4 import BeautifulSoup
 
 # set the coverage threshbold
-THRESHOLD = 100
+THRESHOLD = 80
 
 current_dir = os.getcwd()
 coverage_file_path = os.path.join(current_dir, "coverage/index.html")

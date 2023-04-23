@@ -26,7 +26,6 @@ Future<Store<AppState>> setupStatePersistence({
 
   final Store<AppState> store = Store<AppState>(
     initialState: initialState,
-    persistor: PersistorPrinterDecorator<AppState>(stateDB),
     defaultDistinct: true,
   );
 
