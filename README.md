@@ -2,6 +2,12 @@
 
 Note IT is a simple Note taking mobile application built with Flutter.
 
+## Screenshots
+![Screenshot_1682259323_google-pixel4xl-ohsoorange-portrait](https://user-images.githubusercontent.com/52053291/233860488-a07a93aa-3be4-43e6-a1f6-a325f782b7aa.png)
+![Screenshot_1682259334_google-pixel4xl-ohsoorange-portrait](https://user-images.githubusercontent.com/52053291/233860492-768394e5-884c-45ca-ba56-23323bd56bb2.png)
+![Screenshot_1682259457_google-pixel4xl-ohsoorange-portrait](https://user-images.githubusercontent.com/52053291/233860494-c5e1eafd-3b07-4ab9-a065-c9f04df2d9de.png)
+![Screenshot_1682259464_google-pixel4xl-ohsoorange-portrait](https://user-images.githubusercontent.com/52053291/233860496-22c77e99-19e0-4bbe-b953-075d60b6b806.png)
+
 ## Setup Instructions
 
 To setup the project, make sure you have flutter installed. The project currently works with **`Flutter 3.7.5`**. The project is configured to use [FVM](https://fvm.app/) incase you may have different Flutter Versions installed.
