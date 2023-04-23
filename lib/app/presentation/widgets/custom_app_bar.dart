@@ -26,7 +26,10 @@ class CustomAppBar extends StatelessWidget {
             horizontal: SpaceUtils.large,
             vertical: SpaceUtils.large,
           ),
-          child: const AppInputField(hintText: AppStrings.searchHintText),
+          child: const AppInputField(
+            hintText: AppStrings.searchHintText,
+            enabled: false,
+          ),
         ),
       ),
       title: Text(
