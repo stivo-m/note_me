@@ -1,0 +1,107 @@
+name: Production Build & Deploy
+on:
+  push:
+    # branches:
+    #   - main
+jobs:
+  # Run automated tests on the main branch
+  run-tests-and-coverage:
+    name: Analyze and Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12"
+      - uses: actions/setup-python@v1
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+          flutter-version: "3.7.5"
+
+      - name: Install flutter dependencies
+        run: |
+          flutter clean
+          flutter pub get
+
+      - name: Analyze and Test
+        run: |
+          flutter analyze
+          sudo apt-get -qq update
+          sudo apt-get install -qqy lcov python3-pip
+          pip3 install -Uqqq lxml && pip3 install -Uqqq beautifulsoup4
+          flutter test --coverage test/
+          lcov --remove coverage/lcov.info 'lib/**/*.g.dart' -o coverage/lcov.info
+          lcov --remove coverage/lcov.info 'lib/**/*.freezed.dart' -o coverage/lcov.info
+          lcov --remove coverage/lcov.info 'lib/app/infrastructure/repositories/local/database/note_me_mobile_database.dart' -o coverage/lcov.info
+          lcov --remove coverage/lcov.info 'lib/app/infrastructure/repositories/local/database/sqlite_init.dart' -o coverage/lcov.info
+          lcov --remove coverage/lcov.info 'lib/app/presentation/pages/dashboard/note_editor/note_editor_page.dart' -o coverage/lcov.info  
+          genhtml -q -o coverage coverage/lcov.info
+          python3 check_coverage.py
+
+  # Build and deploy the app bundle to Playstore Production Track
+  build-android-apk-and-deploy-to-playstore:
+    name: "Build and deploy to Playstore Production Track"
+    # only on main branch
+    # if: github.ref == 'refs/heads/main'
+    needs:
+      - run-tests-and-coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Android APK
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: "zulu"
+          java-version: "11"
+
+      - name: Setup flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.7.5"
+      - name: Setup Android Keys
+        run: |
+          set -e
+          echo "${{secrets.KEYSTORE_FILE}}" | base64 --decode > android/android_store_file.jks
+          if [ -f android/android_store_file.jks ]
+          then
+            touch android/key.properties
+            echo "=== GENERATING KEY PROPERTIES FILE ==="
+            echo "storePassword=${{secrets.PROD_STORE_PASSWORD}}" | tee -a android/key.properties
+            echo "keyPassword=${{secrets.PROD_KEY_PASSWORD}}" | tee -a android/key.properties
+            echo "keyAlias=${{secrets.PROD_KEY_ALIAS}}" | tee -a android/key.properties
+            echo "storeFile=../../android/android_store_file.jks" | tee -a android/key.properties
+            echo "=== KEY PROPERTIES FILE GENERATED ==="
+          else
+            echo "Store file not generated"
+            exit -1
+          fi
+
+      - name: Build apk
+        run: |
+          flutter pub get 
+          flutter build appbundle --release --flavor production --build-number=${{ github.run_number }} --build-name=1.0.${{ github.run_number }} --dart-define APP_VERSION=1.0.${{ github.run_number }}
+      - name: "Upload artifacts"
+        uses: actions/upload-artifact@v1
+        with:
+          name: Android APK
+          path: build/app/outputs/flutter-apk/app-production-release.aab
+
+      # Upload generated app-bundle
+      - name: "Upload to Google Play"
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
+          packageName: ${{secrets.PROD_PACKAGE_NAME }}
+          releaseFiles: build/app/outputs/flutter-apk/app-production-release.aab
+          track: production
+          status: inProgress
+          inAppUpdatePriority: 2
+          whatsNewDirectory: release-notes/
